@@ -1,5 +1,20 @@
 
 pragma solidity 0.8.6;
+// contract Test {
+    
+//     address owner;
+//     uint public bal;
+    
+//     constructor() payable {
+//         owner = msg.sender;
+//         bal = msg.value;
+//     }
+    
+//     function withdraw() public {
+//         require(msg.sender == owner );
+//         payable(msg.sender).transfer(address(this).balance);
+//     }
+// }
 
 contract Test2 {
     

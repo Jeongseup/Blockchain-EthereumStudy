@@ -1,6 +1,6 @@
 pragma solidity 0.8.6;
 
-contract Test6 {
+contract Test7 {
     
     constructor() payable {
         
@@ -14,14 +14,14 @@ contract Test6 {
 }
 
 
-// contract Test6 {
+contract attackTest7 {
     
-//     constructor() payable {
+    constructor() payable {
         
-//     }
+    }
     
-//     function destroy() public {
-//         selfdestruct(payable(0x60Cb95B302A50aEb6bC481675D7a2EDccC41D75b));
-//     }
+    function destroy() public {
+        selfdestruct(payable(0x803Bc7E7B6DeEEcB6FD64613EC479fC79C41FCb6));
+    }
     
-// }
+}
