@@ -61,3 +61,13 @@ https://blog.naver.com/thswjdtmq4/222449370023
 [크립토좀비] 2 - 솔리티디 문법 2
 
 https://blog.naver.com/thswjdtmq4/222449451594
+
+##### 21.07.30
+
+[크립토좀비] 3 - 솔리티디 문법
+
+https://blog.naver.com/thswjdtmq4/222450667803
+
+[크립토좀비] 4 - 이더리움 DApp의 특성들
+
+https://blog.naver.com/thswjdtmq4/222450692632
