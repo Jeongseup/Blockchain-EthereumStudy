@@ -117,8 +117,52 @@
 
     </header>
     <!-- monitor -->
-    <div class="container fakeimg">
-        여기다 메세지를 띄우고 싶은데 어캐 할지 모르겠다..
+    <div id="monitor" class="fakeimg">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Block Hash</h5>
+                            <p id="card_blockhash" class="card-text">None</p>
+                            <a href="#" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Block Number</h5>
+                            <p id="card_blockNumber" class="card-text">None</p>
+                            <a href="#" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Block TimeStamp</h5>
+                            <p id="card_blocktimestamp" class="card-text">None</p>
+                            <a href="#" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9" style="margin-top: 10px;">
+                    <div class="card">
+                        <div class="card-header">
+                            Transactions
+                        </div>
+                        <div class="card-body">
+                            <blockquote id="card_transactions" class="blockquote mb-0">
+                                <p>None</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </div>
     <!-- Container -->
     <div class="customContainer">
@@ -190,8 +234,6 @@
         }
 
 
-        console.log(web3.txpool);
-
         function loadCurrentBlock() {
             // console.log(currentBlockNumber);
             document.getElementById("currentblock").innerHTML =
@@ -199,6 +241,7 @@
         }
 
         function searchBlockInfo() {
+
             let _blockNum = parseInt(document.getElementById("blocknumber").value);
 
             if (_blockNum > currentBlockNumber) {
@@ -206,7 +249,21 @@
             } else {
                 let blockInfo = web3.eth.getBlock(parseInt(_blockNum));
                 console.log(blockInfo);
+
+
+
+                var item = [];
+                item.push(blockInfo.hash);
+                item.push(blockInfo.number);
+                item.push(blockInfo.transactions);
+                item.push(blockInfo.timestamp);
+
+                console.log(item);
+
+                monitor.insertAdjacentHTML("beforeend", item);
             }
+
+
         }
 
 
