@@ -87,4 +87,6 @@ https://blog.naver.com/thswjdtmq4/222454180925
 
 https://blog.naver.com/thswjdtmq4/222454012221
 
-[ganache-basic] 이더스캔 copy 하기
+[ganache-basic] 이더스캔 프론트 페이지 카피하기 - Etherseupcan
+
+https://blog.naver.com/thswjdtmq4/222454770779
