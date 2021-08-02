@@ -71,3 +71,20 @@ https://blog.naver.com/thswjdtmq4/222450667803
 [크립토좀비] 4 - 이더리움 DApp의 특성들
 
 https://blog.naver.com/thswjdtmq4/222450692632
+
+
+##### 21.08.02
+
+Tutorial Go Ethereum(geth 설치 및 사용법)
+
+https://blog.naver.com/thswjdtmq4/222454021625
+
+Ganache-cli 설치
+
+https://blog.naver.com/thswjdtmq4/222454180925
+
+[암호화폐 칼럼] 정우현의 코인세상 뒤집어보기, 금과 다른 가치의 자산 비트코인
+
+https://blog.naver.com/thswjdtmq4/222454012221
+
+[ganache-basic] 이더스캔 copy 하기
