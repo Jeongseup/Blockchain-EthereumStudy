@@ -29,8 +29,7 @@
             console.log("not connected");
         }
 
-        let accounts = web3.eth.accounts;
-        const etherCommandList = Object.keys(web3.eth);
+        // const etherCommandList = Object.keys(web3.eth);
     </script>
 
     <style>
@@ -93,10 +92,14 @@
             width: 100%;
             padding: 20px;
         }
+
+        .container {
+            padding: 10px;
+        }
     </style>
 </head>
 
-<body>
+<body onload="updateBody();">
     <!-- Note -->
     <div style="background: #ffff; padding: 10px">
         <img style="width: auto; height: 30px" src="https://etherscan.io/images/logo-ether.png?v=0.0.2" alt="" />
@@ -117,7 +120,8 @@
 
     </header>
     <!-- monitor -->
-    <div id="monitor" class="fakeimg">
+    <div class="fakeimg">
+        <a name="monitor"></a>
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-sm-3">
@@ -125,7 +129,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Block Hash</h5>
                             <p id="card_blockhash" class="card-text">None</p>
-                            <a href="#" class="btn btn-primary">Go someblock</a>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
                         </div>
                     </div>
                 </div>
@@ -133,8 +137,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Block Number</h5>
-                            <p id="card_blockNumber" class="card-text">None</p>
-                            <a href="#" class="btn btn-primary">Go someblock</a>
+                            <p id="card_blocknumber" class="card-text">None</p>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
                         </div>
                     </div>
                 </div>
@@ -143,7 +147,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Block TimeStamp</h5>
                             <p id="card_blocktimestamp" class="card-text">None</p>
-                            <a href="#" class="btn btn-primary">Go someblock</a>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
                         </div>
                     </div>
                 </div>
@@ -153,7 +157,7 @@
                             Transactions
                         </div>
                         <div class="card-body">
-                            <blockquote id="card_transactions" class="blockquote mb-0">
+                            <blockquote id="card_blocktransactions" class="blockquote mb-0">
                                 <p>None</p>
                             </blockquote>
                         </div>
@@ -184,6 +188,7 @@
         </aside>
         <!-- main -->
         <main class="main">
+            <!-- function 1 : send ether -->
             <div class="container">
                 <div>
                     <h3>Send ETH</h3>
@@ -202,65 +207,118 @@
                     </div>
                 </div>
             </div>
-            <br />
-            <h3>Get Block Information</h3>
-            <div class="input-group" style="width: 30%">
-                <input type="text" id="blocknumber" class="form-control" placeholder="Serach Block Nubmer"></input>
-                <button type="button" class="btn btn-primary" onclick="searchBlockInfo();">
-                    <label>Search</label>
-                </button>
+            <!-- function 2 :  get block -->
+            <div class="container">
+                <a name="target">
+                    <h3>Get Block Information</h3>
+                </a>
+                <div class="input-group" style="width: 30%">
+                    <input type="text" id="blocknumber" class="form-control" placeholder="Serach Block Nubmer"></input>
+                    <a href="#monitor" class="btn btn-primary" onclick="searchBlockInfo();">Search</a>
+                </div>
+            </div>
+            <!-- function 3 : create new account  -->
+            <div class=" container">
+                <h3>Create New Account</h3>
+                <div class="input-group" style="width: 30%">
+                    <input type="password" id="password" class="form-control" placeholder="Input your password"></input>
+                    <button type="button" class="btn btn-primary" onclick="createNewAccount();">
+                        <label>Create</label>
+                    </button>
+                </div>
+            </div>
+            <!-- function 3 : create new account  -->
+            <div class="container">
+                <h3>Unlock your Account</h3>
+                <div class="input-group" style="width: 60%">
+                    <input type="text" id="unlock_account" class="form-control"
+                        placeholder="Input your address"></input>
+                    <input type="password" id="unlock_password" class="form-control"
+                        placeholder="Input your password"></input>
+                    <button type="button" class="btn btn-primary" onclick="unlockAccount();">
+                        <label>Unlock</label>
+                    </button>
+                </div>
             </div>
         </main>
     </div>
     <!-- Footer -->
     <footer class="footer">
-        <h5>Footer</h5>
+
     </footer>
     <script>
         // create init list
-        // 1. block number
-        const currentBlockNumber = web3.eth.blockNumber;
-        // 2. account list
-        const accountList = [];
-        for (let account of accounts) {
-            var item = {};
-            var balance = web3.eth.getBalance(account);
-            var ether = web3.fromWei(balance).toNumber();
-
-            // console.log(account, ether);
-            item.account = account;
-            item.eth = ether;
-            accountList.push(item);
-        }
-
+        let currentBlockNumber;
+        let accountList = [];
 
         function loadCurrentBlock() {
-            // console.log(currentBlockNumber);
+            currentBlockNumber = web3.eth.blockNumber;
             document.getElementById("currentblock").innerHTML =
                 `<h3>Current Block Number is ${currentBlockNumber}</h3>`;
+        }
+
+        function createNewAccount() {
+            let _password = document.getElementById("password").value;
+            web3.personal.newAccount(_password);
+
+            console.log("create new account!");
+            updateBody();
+        }
+
+        function unlockAccount() {
+            let _account = document.getElementById("unlock_account").value;
+            let _pw = document.getElementById("unlock_password").value;
+
+            web3.personal.unlockAccount(_account, _pw, function (error, status) {
+                if (error == null) {
+                    // console.log(status);
+                    window.alert("Unlock!");
+                } else {
+                    // console.log(error.message);
+                    window.alert(error.message);
+                }
+            });
+
+        }
+
+        function searchTransaction() {
+            web3.eth.getTransaction(txHash, function (error, tx) {
+                console.log(tx);
+            })
         }
 
         function searchBlockInfo() {
 
             let _blockNum = parseInt(document.getElementById("blocknumber").value);
+            // if (_blockNum == null) {
+            //     _blockNum = currentBlockNumber;
+            // } else {
+            //     _blockNum = parseInt(document.getElementById("blocknumber").value);
+            // }
 
             if (_blockNum > currentBlockNumber) {
                 window.alert("현재 생성되지 않은 블록입니다.");
             } else {
                 let blockInfo = web3.eth.getBlock(parseInt(_blockNum));
-                console.log(blockInfo);
+                // console.log(blockInfo);
 
+                // var item = [];
+                // item.push(blockInfo.hash);
+                // item.push(blockInfo.number);
+                // item.push(blockInfo.transactions);
+                // item.push(blockInfo.timestamp);
 
+                // console.log(item);
+                document.getElementById("card_blockhash").innerHTML = blockInfo.hash;
+                document.getElementById("card_blocknumber").innerHTML = blockInfo.number;
+                document.getElementById("card_blocktransactions").innerHTML = blockInfo.transactions;
 
-                var item = [];
-                item.push(blockInfo.hash);
-                item.push(blockInfo.number);
-                item.push(blockInfo.transactions);
-                item.push(blockInfo.timestamp);
+                document.getElementById("card_blocktimestamp").innerHTML = blockInfo.timestamp;
 
-                console.log(item);
-
-                monitor.insertAdjacentHTML("beforeend", item);
+                // card_blockhash.insertAdjacentHTML("beforeend", blockInfo.hash);
+                // card_blocknumber.insertAdjacentHTML("beforeend", blockInfo.number);
+                // card_blocktransactions.insertAdjacentHTML("beforeend", blockInfo.transactions);
+                // card_blocktimestamp.insertAdjacentHTML("beforeend", blockInfo.timestamp);
             }
 
 
@@ -290,12 +348,21 @@
                     value: web3.toWei(_etherAmmount, "ether"),
                 });
 
-                window.location.reload();
+
+                console.log("send!");
+                updateBody();
+                // window.location.reload();
+                // setTimeout(function () {
+                //     console.log('Works!');
+                //     updateBody();
+                // }, 3000);
             }
+
         }
 
 
         function loadAccounts() {
+
             var h = [];
             h.push(`<option value="">주소를 선택하세요.</option>`);
 
@@ -310,6 +377,20 @@
         }
 
         function renderAccounts() {
+
+            const accounts = web3.eth.accounts;
+            accountList = [];
+
+            for (let account of accounts) {
+                var item = {};
+                var balance = web3.eth.getBalance(account);
+                var ether = web3.fromWei(balance).toNumber();
+
+                item.account = account;
+                item.eth = ether;
+                accountList.push(item);
+            }
+
             var h = [];
             for (var idx in accountList) {
                 h.push("<tr>");
@@ -318,21 +399,19 @@
                 h.push("<td>" + accountList[idx].eth + "</td>");
                 h.push("</tr>");
             }
+
             document.getElementById("tb_account").innerHTML = h.join("");
+            // console.log(accountList[0].eth);
         }
 
-        function createNewAccount(_pw) {
-            web3.personal.newAccount(_pw);
+        function updateBody() {
+            renderAccounts();
+            loadAccounts();
+            loadCurrentBlock();
+            searchBlockInfo();
         }
-
-        function unlockAccount(_account, _pw) {
-            web3.personal.unlockAccount(_account, _pw);
-        }
-
-        renderAccounts();
-        loadAccounts();
-        loadCurrentBlock();
     </script>
 </body>
+
 
 </html>
