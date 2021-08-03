@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/bignumber.min.js"></script>
+    <script type="text/javascript" src="./lib/web3.js"></script>
+
+</head>
+
+<body>
+    <div class="container row">
+        <div class="input-group col-3">
+            <!-- <div class="input-group mb-3"> -->
+            <input id="input_amount" type="text" class="form-control" placeholder="Recipient's username"
+                aria-label="Recipient's username" aria-describedby="button-addon2" />
+            <button class="btn btn-primary" type="button" id="button-addon2" onclick="deposit();">
+                Deposit
+            </button>
+        </div>
+        <div class="input-group col-3">
+            <input id="input_balance" type="text" class="form-control" placeholder="Current Count" />
+            <button class="btn btn-primary" type="button" id="button-addon2" onclick="getBalance();">
+                Get Balance
+            </button>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    if (typeof web3 !== "undefined") {
+        web3 = new Web3(web3.currentProvider);
+    } else {
+        // set the provider you want from Web3.providers
+        web3 = new Web3(
+            new Web3.providers.HttpProvider("http://localhost:8545")
+        );
+    }
+
+    if (web3.isConnected()) {
+        console.log("connected");
+    } else {
+        console.log("not connected");
+    }
+
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+
+    let abi = [{
+            "inputs": [{
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            }],
+            "name": "deposit",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getBalance",
+            "outputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ];
+
+    let contractAddress = "0xc3d6e98a96b4F09FF8359973E3Bf463EAAfACccD";
+    let smartContract = web3.eth.contract(abi).at(contractAddress);
+    // console.log(smartContract);
+
+    function deposit() {
+        let _amount = parseInt(document.getElementById("input_amount").value);
+        // console.log(typeof _amount);
+        // console.log(_amount);
+
+        // smartContract.deposit.sendTransaction(_amount, function (error, hash) {
+        //     console.log(hash);
+        // });
+        smartContract.deposit.sendTransaction(1, {
+            from: web3.eth.accounts[0]
+        }, function (error, hash) {
+            console.log(hash);
+        });
+
+        getBalance();
+    }
+
+    function getBalance() {
+        smartContract.getBalance.call(function (error, result) {
+            // console.log(result.toNumber());
+            output = result.toNumber();
+
+            document.getElementById("input_balance").value = output;
+        })
+
+
+    }
+</script>
+
+</html>
