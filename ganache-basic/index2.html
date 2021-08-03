@@ -146,54 +146,54 @@
     </header>
     <!-- monitor -->
     <div class="container">
-        <div class="fakeimg">
-            <a name="monitor"></a>
-            <div class="container">
-                <div class="row justify-content-md-center">
-                    <div class="col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Block Number</h5>
-                                <p id="card_blocknumber" class="card-text">None</p>
-                                <a href="#target" class="btn btn-primary">Go someblock</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Block TimeStamp</h5>
-                                <p id="card_blocktimestamp" class="card-text">None</p>
-                                <a href="#target" class="btn btn-primary">Go someblock</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-text">Block Hash</h5>
-                                <p id="card_blockhash" class="card-text">None</p>
-                                <a href="#target" class="btn btn-primary">Go someblock</a>
-                            </div>
+        <!-- <div class="fakeimg"> -->
+        <a name="monitor"></a>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Block Number</h5>
+                            <p id="card_blocknumber" class="card-text">None</p>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-sm-12" style="margin-top: 10px;">
-                        <div class="card">
-                            <div class="card-header">
-                                Transactions
-                            </div>
-                            <div class="card-body">
-                                <blockquote id="card_blocktransactions" class="blockquote mb-0">
-                                    <p>None</p>
-                                </blockquote>
-                            </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Block TimeStamp</h5>
+                            <p id="card_blocktimestamp" class="card-text">None</p>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-text">Block Hash</h5>
+                            <p id="card_blockhash" class="card-text">None</p>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-sm-12" style="margin-top: 10px;">
+                    <div class="card">
+                        <div class="card-header">
+                            Transactions
+                        </div>
+                        <div class="card-body">
+                            <blockquote id="card_blocktransactions" class="blockquote mb-0">
+                                <p>None</p>
+                            </blockquote>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- </div> -->
     </div>
     </div>
     <!-- Container -->
@@ -215,17 +215,6 @@
         </aside>
         <!-- main -->
         <main class="main">
-            <div class="container">
-                <div class="input-group">
-                    <!-- <div class="input-group mb-3"> -->
-                    <input id="input_blocknumber" type="text" class="form-control" placeholder="Recipient's username"
-                        aria-label="Recipient's username" aria-describedby="button-addon2" />
-
-                    <button class="btn btn-primary" type="button" id="button-addon2" onclick="getBlockNumber();">
-                        Button
-                    </button>
-                </div>
-            </div>
             <!-- function 1 : send ether -->
             <div class="container">
                 <div>
@@ -247,23 +236,12 @@
             </div>
             <!-- function 2 :  get block -->
             <div class="container">
-
                 <a name="target">
                     <h3>Get Block Information</h3>
                 </a>
                 <div class="input-group" style="width: 30%">
                     <input type="text" id="blocknumber" class="form-control" placeholder="Serach Block Nubmer"></input>
                     <a href="#monitor" class="btn btn-primary" onclick="searchBlockInfo();">Search</a>
-                </div>
-                <div>
-                    <name name="target">
-                        <h3>Get Block Information</h3>
-                    </name>
-                    <div class="input-group" style="width: 30%">
-                        <input type="text" id="blocknumber" class="form-control"
-                            placeholder="Serach Block Nubmer"></input>
-                        <a href="#monitor" class="btn btn-primary" onclick="searchBlockInfo();">Search</a>
-                    </div>
                 </div>
             </div>
             <!-- function 2 :  get block -->
