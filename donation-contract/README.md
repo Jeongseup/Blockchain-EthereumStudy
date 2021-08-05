@@ -12,7 +12,7 @@
 
 ---
 
-#### 프로젝트 세부 기획 내용
+#### 프로젝트 세부 내용 카피라이트
 
 Inspired web front design dapp service1 : https://cashgrab.io/
 Inspired web front design dapp service2 : https://giveth.io/
