@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Donation</title>
+    <title>The Givers</title>
     <link rel="icon" type="image/png" href="./src/logo.png">
 
     <!-- Bootstrap CSS -->
@@ -24,11 +24,12 @@
             font-family: "Playfair Display"
         }
 
-        .fakeimg {
-            background-color: #aaa;
+        .bd-highlight {
+            /* 
             background-color: rgba(86, 61, 124, 0.15);
             border: 1px solid black;
             width: 100%;
+             */
         }
 
         .bg-default {
@@ -47,18 +48,39 @@
 </head>
 
 <body>
-    <!-- 커버하고 싶은 사이트 : https://giveth.io/ -->
-    <!-- https://cashgrab.io/cash-grab#roadmap -->
     <!-- container -->
-    <div class="container">
+    <div class="pt-5 d-flex">
         <!-- default bg color -->
-        <div class="bg-default d-flex">
+        <div class="bg-default d-flex align-content-center flex-wrap" style="flex:40%">
             <!-- flex-50 -->
-            <div class="bd-highlight flex-50">
-                <div class="input-group col-sm-3 p-3">
+            <div class="bd-highlight">
+                <div class="p-3 text-white text-end">
+                    <blockquote class="blockquote">
+                        <h1 class="display-3">The Givers Project</h1>
+                    </blockquote>
+                    <p class="text-white blockquote-footer mt-3">
+                        <em>
+                            Donate directly to social good projects with zero added fees.
+                        </em>
+                    </p>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" onclick="connectWallet();">
+                            Connect Wallet
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- flex-50 -->
+            <div class="bd-highlight">
+                <!-- <div class="input-group col-sm-3 p-3">
                     <button class="btn btn-secondary" type="button" id="button-addon2" onclick="getContractBalancne();">
                         Current your Balance is
                     </button>
+                </div> -->
+                <div class="p-3 text-white text-end">
+                    <p class="h3">
+                        Current Total Givers are 3 !
+                    </p>
                 </div>
                 <div class="input-group col-sm-3 p-3">
                     <input id="input_nickname" type="text" class="form-control" placeholder="Your Nickname" />
@@ -74,12 +96,7 @@
                         Latest Giver Information
                     </button>
                 </div>
-                <div class="input-group col-3 p-3">
-                    <input id="input_totalgivers" type="text" class="form-control" placeholder="Current Count" />
-                    <button class="btn btn-secondary" type="button" id="button-addon2" onclick="getTotalGivers();">
-                        Total Givers
-                    </button>
-                </div>
+
                 <div class="input-group col-3 p-3">
                     <input id="input_address" type="text" class="form-control" placeholder="Current Count" />
                     <input id="input_count" type="text" class="form-control" placeholder="Current Count" />
@@ -88,27 +105,11 @@
                     </button>
                 </div>
             </div>
-            <!-- flex-50 -->
-            <div class="bd-highlight flex-50">
-                <div class="p-3 text-white text-end">
-                    <blockquote class="blockquote">
-                        <h1 class="display-3">The Givers Project</h1>
-                    </blockquote>
-                    <p class="text-white blockquote-footer mt-3">
-                        <em>
-                            Donate directly to social good projects with zero added fees.
-                        </em>
-                    </p>
-                    <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" onclick="connectWallet();">Connect</button>
-                    </div>
-                </div>
-            </div>
         </div>
         <!-- img content -->
-        <div>
+        <div style="flex:60%">
             <!-- <div class="content" style="background-image:url(./src/main-img.svg);"></div> -->
-            <img src=" ./src/main-img.svg" style="width: 100%;" />
+            <img src=" ./src/main-img.svg" class="img-fluid" />
         </div>
     </div>
 </body>
@@ -119,7 +120,7 @@
     let provider;
     let web3;
     let account;
-    let contract;
+
 
     async function connectWallet() {
         if (window.ethereum) {
@@ -134,6 +135,8 @@
 
                     // document.getElementById("input_myaccount").innerHTML =
                     // `<h3>Your Address is ${account}</h3>`;
+                    getContract();
+
                 })
             } catch (error) {
                 console.log(error);
@@ -153,8 +156,8 @@
 
     // init Contract
     function getContract() {
-
-        let myContract = new web3.eth.Contract(abi, myContractAddress);
+        console.log("getContract Compute!")
+        myContract = new web3.eth.Contract(abi, myContractAddress);
 
         myContract.events.Donate({}, function (error, event) {
                 console.log("Now on, Watching Contract events!");
@@ -212,9 +215,9 @@
         // console.log(_account);
 
         myContract.methods.donate(_nickName).send({
-                from: _account,
-                value: web3.utils.toWei("1", "ether"),
-                gas: 200000,
+                from: account,
+                value: web3.utils.toWei("1", "finney"),
+                // gas: 200000,
                 // gasPrice:
             })
             .on('transactionHash', function (hash) {
