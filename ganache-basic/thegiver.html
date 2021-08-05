@@ -1,197 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donation</title>
+    <link rel="icon" type="image/png" href="./src/logo.png">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    <title>Document</title>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+
+    <!-- web3.js -->
     <script type="text/javascript" src="./lib/bignumber.min.js"></script>
     <script type="text/javascript" src="./lib/web3.min.js"></script>
-    <script>
-        let web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-        console.log(web3);
 
-        let contractAddress = "0x8739fF30ECA3FBECc36220b654e633CD6B598Bc0";
-        let abi = [{
-                "anonymous": false,
-                "inputs": [{
-                    "components": [{
-                            "internalType": "string",
-                            "name": "name",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "account",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "balance",
-                            "type": "uint256"
-                        }
-                    ],
-                    "indexed": false,
-                    "internalType": "struct donation.Givers",
-                    "name": "giver",
-                    "type": "tuple"
-                }],
-                "name": "Donate",
-                "type": "event"
-            },
-            {
-                "inputs": [{
-                    "internalType": "string",
-                    "name": "_nickName",
-                    "type": "string"
-                }],
-                "name": "donate",
-                "outputs": [],
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "getGiveCount",
-                "outputs": [{
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "getLastgiver",
-                "outputs": [{
-                        "internalType": "string",
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "getTotalgivers",
-                "outputs": [{
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }],
-                "stateMutability": "view",
-                "type": "function"
-            }
-        ];
-
-
-        let contract = new web3.eth.Contract(abi, contractAddress);
-        console.log(contract);
-
-        web3.eth.getAccounts(function (error, result) {
-            console.table(result);
-            accounts = result
-
-            _account = accounts[0]
-            document.getElementById("input_myaccount").innerHTML =
-                `<h3>Your Address is ${_account}</h3>`;
-        });
-
-        function getTotalGivers() {
-            let _account = accounts[0];
-            console.log("from is", _account);
-
-            contract.methods.getTotalgivers().call({}).then(function (result) {
-                console.log(result);
-                document.getElementById("input_totalgivers").value = result;
-            });
+    <style>
+        * {
+            font-family: "Playfair Display"
         }
 
-        function getLastgiver() {
-            //contract call
-            contract.methods.getLastgiver().call({}).then(function (result) {
-                // console.table(result);
-                let _nickName = result[0] == "" ? "none" : result[0];
-                let _account = result[1];
-                let _balance = result[2];
-
-                document.getElementById("input_info1").value = _nickName;
-                document.getElementById("input_info2").value = _account;
-                document.getElementById("input_info3").value = _balance;
-            });
+        .fakeimg {
+            background-color: #aaa;
+            width: 100%;
         }
 
-        function getGiveCount() {
-
-            let _account = document.getElementById("input_address").value;
-            console.log("from is", _account);
-
-            contract.methods.getGiveCount().call({
-                from: _account
-            }).then(function (result) {
-                console.log(result);
-                document.getElementById("input_count").value = result;
-            });
+        .side {
+            flex: 50%;
+            background-color: #196B84;
         }
-
-
-        function donate() {
-            let _nickName = document.getElementById("input_nickname").value;
-            console.log(_account);
-
-            contract.methods.donate(_nickName).send({
-                from: _account,
-                value: web3.utils.toWei("1", "ether"),
-                gas: 200000
-            }).then(function (result) {
-                console.log(result);
-            })
-
-            // using the promise
-            // contract.methods.donate(_nickName).estimateGas({
-            //         from: _account,
-            //         value: web3.utils.toWei("1", "ether"),
-            //         gas: 6721975
-            //     })
-            //     .then(function (gasAmount) {
-            //         console.log(gasAmount);
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error);
-            //     });
-        };
-
-
-        // 
-        //         from: ....
-        //     })
-        //     .on('receipt', function () {
-        //         ...
-        //     });
-    </script>
+    </style>
 </head>
 
 <body>
-    커버하고 싶은 사이트 : https://giveth.io/
-    <div class="container row justify-content-center">
+    <!-- 커버하고 싶은 사이트 : https://giveth.io/ -->
+    <!-- https://cashgrab.io/cash-grab#roadmap -->
+    <div class="container">
+        <div class="side p-3 text-white text-end">
+            <blockquote class="blockquote">
+                <h1 class="display-1">Donation Contract</h1>
+            </blockquote>
+            <p>Donate directly to social good projects with zero added fees.</p>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary">Donation</button>
+            </div>
+        </div>
+        <div>
+            <img src=" ./src/main-img.svg" style="width: 100%;" />
+        </div>
+    </div>
+
+    <!-- <div class="content" style="background-image:url(./src/main-img.svg);"></div> -->
+    </main>
+    </div>
+    <nav>
+        <div class="container justify-content-center">
+        </div>
         <div id="input_myaccount"></div>
+        <div class="input-group col-sm-3">
+            <!-- <div class="input-group mb-3"> -->
+            <input id="input_contractbalance" type="text" class="form-control" placeholder="Your Nickname" />
+            <button class="btn btn-primary" type="button" id="button-addon2" onclick="getContractBalancne();">
+                Current Balance
+            </button>
+        </div>
         <div class="input-group col-sm-3">
             <!-- <div class="input-group mb-3"> -->
             <input id="input_nickname" type="text" class="form-control" placeholder="Your Nickname" />
@@ -203,8 +79,8 @@
             <input id="input_info1" type="text" class="form-control" placeholder="Current Count" />
             <input id="input_info2" type="text" class="form-control" placeholder="Current Count" />
             <input id="input_info3" type="text" class="form-control" placeholder="Current Count" />
-            <button class="btn btn-primary" type="button" id="button-addon2" onclick="getLastgiver();">
-                Last Giver Information
+            <button class="btn btn-primary" type="button" id="button-addon2" onclick="getLatestGiver();">
+                Latest Giver Information
             </button>
         </div>
         <div class="input-group col-3">
@@ -216,13 +92,232 @@
         <div class="input-group col-3">
             <input id="input_address" type="text" class="form-control" placeholder="Current Count" />
             <input id="input_count" type="text" class="form-control" placeholder="Current Count" />
-            <button class="btn btn-primary" type="button" id="button-addon2" onclick="getGiveCount();">
+            <button class="btn btn-primary" type="button" id="button-addon2" onclick="getMyGiveCount();">
                 My Give Count
             </button>
         </div>
+    </nav>
     </div>
 
 </body>
+<!-- Contract Connect -->
+<script>
+    // ==================================================================
+    let web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+    let myContractAddress = "0x64318D3e38004eEA523F282cE44831837e3e127b";
+    let abi = [{
+            "anonymous": false,
+            "inputs": [{
+                "components": [{
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "indexed": false,
+                "internalType": "struct DonationContract.Giver",
+                "name": "giver",
+                "type": "tuple"
+            }],
+            "name": "Donate",
+            "type": "event"
+        },
+        {
+            "inputs": [{
+                "internalType": "string",
+                "name": "_nickName",
+                "type": "string"
+            }],
+            "name": "donate",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getGivers",
+            "outputs": [{
+                "components": [{
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct DonationContract.Giver[]",
+                "name": "",
+                "type": "tuple[]"
+            }],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getLatestGiver",
+            "outputs": [{
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getMyGiveCount",
+            "outputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getTotalGivers",
+            "outputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ];
+    // ==================================================================
 
+    let myContract = new web3.eth.Contract(abi, myContractAddress);
+    console.log("My Contract Object is", myContract);
+
+    web3.eth.getAccounts(function (error, result) {
+        // console.table(result);
+        accounts = result
+        _account = accounts[0]
+        document.getElementById("input_myaccount").innerHTML =
+            `<h3>Your Address is ${_account}</h3>`;
+    });
+
+    myContract.events.Donate({}, function (error, event) {
+            console.log("Watch event!");
+            console.log(error);
+            console.log(event);
+        })
+        .on("connected", function (subscriptionId) {
+            console.log(subscriptionId);
+        })
+        .on('data', function (event) {
+            console.log(event); // same results as the optional callback above
+        });
+
+    function getTotalGivers() {
+        let _account = accounts[0];
+        console.log("from is", _account);
+
+        myContract.methods.getTotalGivers().call({}).then(function (result) {
+            console.log(result);
+            document.getElementById("input_totalgivers").value = result;
+        });
+    }
+
+    function getLatestGiver() {
+        //contract call
+        myContract.methods.getLatestGiver().call({}).then(function (result) {
+            console.log(result);
+            let _nickName = result[0] == "" ? "none" : result[0];
+            let _account = result[1];
+            let _balance = result[2];
+
+            document.getElementById("input_info1").value = _nickName;
+            document.getElementById("input_info2").value = _account;
+            document.getElementById("input_info3").value = _balance;
+        });
+    }
+
+    function getMyGiveCount() {
+
+        let _account = document.getElementById("input_address").value;
+        console.log("from is", _account);
+
+        myContract.methods.getMyGiveCount().call({
+            from: _account
+        }).then(function (result) {
+            console.log(result);
+            document.getElementById("input_count").value = result;
+        });
+    }
+
+
+    function donate() {
+        let _nickName = document.getElementById("input_nickname").value;
+        // console.log(_account);
+
+        myContract.methods.donate(_nickName).send({
+                from: _account,
+                value: web3.utils.toWei("1", "ether"),
+                gas: 200000,
+                // gasPrice:
+            })
+            .on('transactionHash', function (hash) {
+                // console.log(hash);
+            })
+            .on('receipt', function (receipt) {
+                console.log(receipt);
+            })
+            .on('error', function (error, receipt) {
+                console.log(error, receipt);
+            });
+        // using the promise
+        // myContract.methods.donate(_nickName).estimateGas({
+        //         from: _account,
+        //         value: web3.utils.toWei("1", "ether"),
+        //         gas: 6721975
+        //     })
+        //     .then(function (gasAmount) {
+        //         console.log(gasAmount);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+    };
+
+    function getContractBalancne() {
+        web3.eth.getBalance(myContractAddress)
+            .then(function (result) {
+                console.log(result);
+                document.getElementById("input_contractbalance").value = result;
+            })
+    };
+</script>
 
 </html>
