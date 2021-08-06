@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Givers</title>
+    <link rel="icon" type="image/png" href="./src/logo.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+
+    <!-- web3.js -->
+    <script type="text/javascript" src="./lib/bignumber.min.js"></script>
+    <script type="text/javascript" src="./lib/web3.min.js"></script>
+
+    <style>
+        * {
+            font-family: "Playfair Display";
+            box-sizing: border-box;
+        }
+
+        .bg-black {
+            background-color: black;
+
+        }
+
+        .bg-default {
+            /* flex: 50%; */
+            background-color: #196B84;
+        }
+
+        .flex-60 {
+            flex: 60%;
+        }
+
+        .flex-40 {
+            flex: 40%;
+        }
+
+        .bd-highlight {
+
+            /* background-color: rgba(86, 61, 124, 0.15);
+            border: 1px solid black; */
+            /* width: 100%; */
+
+        }
+
+        .form-control:focus {
+            border-color: #adb5bd;
+            box-shadow: 0 0 0 0.2rem hsla(210, 11%, 71%, 0.25);
+        }
+    </style>
+</head>
+
+<body class="bg-black" onload="init();">
+    <!-- container -->
+    <div class="pt-5 d-flex">
+        <!-- default bg color -->
+        <div class="bg-default flex-40 d-flex align-content-center">
+            <div class="row justify-content-center flex-wrap">
+                <!-- flex-50 -->
+                <div class="">
+                    <div class="p-3 text-white text-end">
+                        <blockquote class="blockquote">
+                            <h1 class="display-3">The Givers Project</h1>
+                        </blockquote>
+                        <p class="text-white blockquote-footer mt-3">
+                            <em>
+                                Donate directly to social good projects with zero added fees.
+                            </em>
+                        </p>
+                        <div class="p-3 text-white text-end">
+                            <p id="p_totalgivers" class="h3"></p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button id="btn_connectwallet" type="button" class="btn btn-lg btn-secondary"
+                                onclick="connectWallet();">
+                                Connect Wallet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- flex-50 -->
+                <div class="row justify-content-center">
+                    <div class="" style="width: 90%;">
+                        <div class="input-group col-sm-3 p-3">
+                            <input id="input_nickname" type="text" class="form-control"
+                                placeholder="Input your nickname, if not it's replaced to none" />
+                            <button class="btn btn-secondary" type="button" id="button-addon2" onclick="donate();">
+                                Donate
+                            </button>
+                        </div>
+                        <div class="input-group col-3 p-3 fs-6">
+                            <input id="input_info1" type="text" class="form-control" placeholder="Nickname" />
+                            <input id="input_info2" type="text" class="form-control" placeholder="Address" />
+                            <input id="input_info3" type="text" class="form-control" placeholder="Amount" />
+                            <button class="btn btn-secondary" type="button" id="button-addon2"
+                                onclick="getLatestGiver();">
+                                Latest Giver
+                            </button>
+                        </div>
+                        <div class="input-group col-3 p-3">
+                            <input id="input_count" type="text" class="form-control" placeholder="Your Give Count" />
+                            <button class="btn btn-secondary" type="button" id="button-addon2"
+                                onclick="getMyGiveCount();">
+                                My Give Count
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- img content -->
+        <div class="flex-60">
+            <!-- <div class="content" style="background-image:url(./src/main-img.svg);"></div> -->
+            <img src=" ./src/main-img.svg" class="img-fluid" />
+        </div>
+    </div>
+</body>
+<!-- Javascript Code -->
+<script type="text/javascript" src="./src/contract.js"></script>
+<script type="text/javascript">
+    let provider;
+    let web3;
+    let account;
+
+    async function init() {
+        // contract.js import cofirm
+        console.log("My Application Binary Interface is ", abi);
+        console.log("My Contract Address is ", myContractAddress);
+
+        if (window.ethereum) {
+            web3 = new Web3(window.ethereum);
+            try {
+
+                // connect 
+                await getContract();
+                await getTotalGivers();
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        // Legacy dapp browsers...
+        else if (window.web3) {
+            // Use Mist/MetaMask's provider.
+            web3 = window.web3;
+            console.log("Injected web3 detected.");
+        }
+    }
+
+    // init Contract
+    function getContract() {
+        console.log("getContract Compute!")
+        myContract = new web3.eth.Contract(abi, myContractAddress);
+
+        myContract.events.Donate({}, function (error, event) {
+                console.log("Now on, Watching Contract events!");
+
+                if (!error)
+                    console.log(event);
+            })
+            .on('data', function (event) {
+                console.log(event); // same results as the optional callback above
+            });
+    };
+
+    function getTotalGivers() {
+        console.log("Use getTotalGivers function!");
+
+        myContract.methods.getTotalGivers().call({}).then(function (result) {
+            // console.log(result);
+            document.getElementById("p_totalgivers").innerText = `Current Total Givers are ${result}!`;
+        });
+    };
+
+    async function connectWallet() {
+        console.log("Use connectWallet function!");
+
+        // Request account access if needed
+        await window.ethereum.enable();
+
+        // get balacne in connected account
+        web3.eth.getAccounts().then(function (accounts) {
+            account = accounts[0]
+            console.log("Login Address is :", account);
+
+            web3.eth.getBalance(account).then(function (balance) {
+
+                // parse & convert balacne
+                var sBalance = web3.utils.fromWei(String(balance), "ether").slice(0, 8);
+                console.log(sBalance);
+
+                var item = document.getElementById("btn_connectwallet");
+                item.innerText = "Connected";
+                item.classList.add("disabled");
+
+                // document.getElementById("input_mybalacne").innerHTML =
+                //     `<h3> Your Current Balane is ${balance} ether !<h3>`;
+            });
+        });
+    }
+
+
+    function getLatestGiver() {
+        console.log("Use getLatestGiver function!");
+
+        //contract call
+        myContract.methods.getLatestGiver().call({}).then(function (result) {
+            console.log(result);
+            let _nickName = result[0] == "" ? "none" : result[0];
+            let _account = result[1];
+
+
+            let _balance = web3.utils.fromWei(String(result[2]), "ether").slice(0, 8);
+
+            document.getElementById("input_info1").value = _nickName;
+            document.getElementById("input_info2").value = _account;
+            document.getElementById("input_info3").value = _balance + " ETH";
+        });
+    }
+
+    function getMyGiveCount() {
+        if (account == undefined) {
+            return window.alert("Connect your wallet!");
+        }
+        console.log("Use getMyGiveCount function!");
+
+        myContract.methods.getMyGiveCount().call({
+            from: account
+        }).then(function (result) {
+            console.log(result);
+            document.getElementById("input_count").value = result;
+        });
+    }
+
+
+    function donate() {
+        if (account == undefined) {
+            return window.alert("Connect your wallet!");
+        } else {
+
+            let _nickName = document.getElementById("input_nickname").value;
+
+            myContract.methods.donate(_nickName).send({
+                    from: account,
+                    value: web3.utils.toWei("1", "finney"),
+                    // gas: 200000,
+                    // gasPrice:
+                })
+                .on('transactionHash', function (hash) {
+                    // console.log(hash);
+                })
+                .on('receipt', function (receipt) {
+                    console.log(receipt);
+                })
+                .on('error', function (error, receipt) {
+                    console.log(error, receipt);
+                });
+        }
+    };
+
+
+    function getGivers() {
+        console.log("Use getGivers function");
+
+        //contract call
+        myContract.methods.getGivers().call({}).then(function (result) {
+            console.table(result);
+        });
+    };
+</script>
+
+</html>
