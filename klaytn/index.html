@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body onload=init();>
+
+
+</body>
+<script type="text/javascript">
+    let provider;
+    let web3;
+    let account;
+
+    async function init() {
+
+        if (window.caver) {
+            caver = new Caver(window.caver);
+            try {
+                await console.log(caver.klay);
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        // Legacy dapp browsers...
+        else if (window.web3) {
+            // Use Mist/MetaMask's provider.
+            web3 = window.web3;
+            console.log("Injected web3 detected.");
+        }
+    }
+</script>
+>
+
+</html>

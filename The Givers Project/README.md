@@ -12,6 +12,9 @@
 
 ---
 
+#### Youtube link
+https://youtu.be/5UqOgwajmbY
+
 #### 프로젝트 세부 내용 카피라이트
 
 Inspired web front design dapp service1 : https://cashgrab.io/
@@ -26,3 +29,5 @@ Front : Html + CSS + Bootstrap
 Blockchain Protocol : Ethereum
 Solidity framework : Remix
 Wallet : Metamask
+
+
