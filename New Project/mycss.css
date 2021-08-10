@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 500;
+    margin-top: 3rem;
+}
+
+nav {
+    background-color: black;
+    padding: 0 1rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 3rem;
+}
+
+nav ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+nav li {
+    display: inline-block;
+    padding: 0 0.5rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.scene {
+    height: 100vh;
+    overflow: hidden;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.scene.one {
+    background-color: #196b84;
+    border: 5px solid green;
+    background-image: url(src/main-img.svg);
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: 75%;
+}
+
+#columns {
+    column-width: 15rem;
+    border: 5px solid red;
+    column-gap: 1rem;
+    padding: 0 5rem;
+}
+
+#columns figure {
+    display: inline-block;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 0;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+#columns figure img {
+    width: 100%;
+}
+
+#columns figure figcaption {
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-top: 10px;
+}
