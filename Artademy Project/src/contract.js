@@ -1,5 +1,5 @@
-let donateCA = "0xA0DA2C355a2739Cf30fb99Bb3774c8EA511aB9E9";
-let DonateABI = [{
+let donateCA = "0xe8D52E6d0e3C1c39903D9c7884882d73151f02dB";
+let donateABI = [{
         "anonymous": false,
         "inputs": [{
             "components": [{
@@ -110,8 +110,8 @@ let DonateABI = [{
     }
 ];
 
-let tokenCA = "0x236eE483853fF2227F7f9d46Cc34755B00ec00D7";
-let TokenABI = [{
+let tokenCA = "0x9D777b88fF926aBd5BbfB75bb7139f4af16EC8f6";
+let tokenABI = [{
         "inputs": [{
             "internalType": "uint256",
             "name": "total",
@@ -314,6 +314,116 @@ let TokenABI = [{
             "type": "bool"
         }],
         "stateMutability": "nonpayable",
+        "type": "function"
+    }
+];
+
+let factoryCA = "0x03c816A65268dFd2b8eA4938763959ff8d47CbBd";
+let factoryABI = [{
+        "anonymous": false,
+        "inputs": [{
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "artId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "createdBy",
+                "type": "string"
+            }
+        ],
+        "name": "NewArt",
+        "type": "event"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
+        "name": "artToOwner",
+        "outputs": [{
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
+        "name": "arts",
+        "outputs": [{
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "createdBy",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "inspiredBy",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "createdTime",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_createdBy",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_inspiredBy",
+                "type": "string"
+            }
+        ],
+        "name": "createArt",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+        }],
+        "name": "getArtsByOwner",
+        "outputs": [{
+            "internalType": "uint256[]",
+            "name": "",
+            "type": "uint256[]"
+        }],
+        "stateMutability": "view",
         "type": "function"
     }
 ];
