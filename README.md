@@ -141,3 +141,9 @@ https://blog.naver.com/thswjdtmq4/222465337694
 [Ethernaut] - 5. Token
 
 https://blog.naver.com/thswjdtmq4/222465370472
+
+##### 21.08.12
+
+[Ethernaut] - 6. Delegation (부록 : solidity call과 delegatecall의 차이)
+
+https://blog.naver.com/thswjdtmq4/222465428601
