@@ -37,6 +37,29 @@
             <li><a href="page2.html">Page2</a></li>
         </ul>
     </nav>
+    <div>
+        <a class="customBtn blue" href="#blue" onclick="getGivers();">Givers</a>
+        <a class="customBtn red" href="#red" onclick="getBalanceOf();">MyToken</a>
+        <a class="customBtn red" href="" onclick="getArtsByOwner();">getArtsByOwner</a>
+
+        <div class="input-group col-3 p-3 fs-6">
+            <input type="text" class="form-control" placeholder="Art Name" value="Cinderella" />
+            <input type="text" class="form-control" placeholder="Art CreatedBy" value="seup" />
+            <input type="text" class="form-control" placeholder="Art InspiredBy" value="princess" />
+            <button class="btn btn-secondary" type="button" id="button-addon2" onclick="createArt();">
+                CreateArt
+            </button>
+        </div>
+
+        <div class="input-group col-3 p-3 fs-6">
+            <input id="input_artname" type="text" class="form-control" placeholder="Art Name" />
+            <input id="input_artcreatedby" type="text" class="form-control" placeholder="Art CreatedBy" />
+            <input id="input_artinspiredby" type="text" class="form-control" placeholder="Art InspiredBy" />
+            <button class="btn btn-secondary" type="button" id="button-addon2" onclick="createArt();">
+                CreateArt
+            </button>
+        </div>
+    </div>
     <main>
         <section class="scene one">
             <div id="introduction" class="flex-40 d-flex align-content-center">
@@ -147,10 +170,7 @@
         </figure>
     </div>
 
-    <div>
-        <a class="customBtn blue" href="#blue" onclick="getGivers();">blue</a>
-        <a class="customBtn red" href="#red" onclick="getBalanceOf();">red</a>
-    </div>
+
     <footer>
 
         <section class="scene">
@@ -167,13 +187,17 @@
 
         // init Contract => getContract(), getTotalGivers()
         async function init() {
+
             // contract.js import cofirm
-            console.log("Donate Application Binary Interface is ", DonateABI);
+
+            console.log("Donate Application Binary Interface is ", donateABI);
             console.log("Donate Contract Address is ", donateCA);
 
-            console.log("Token Application Binary Interface is ", TokenABI);
-            console.log("Token Contract Address2 is ", tokenCA);
+            console.log("Token Application Binary Interface is ", tokenABI);
+            console.log("Token Contract Address is ", tokenCA);
 
+            console.log("Factory Application Binary Interface is ", factoryABI);
+            console.log("Factory Contract Address is ", factoryCA);
 
             if (window.ethereum) {
                 web3 = new Web3(window.ethereum);
@@ -199,11 +223,15 @@
         function getContract() {
             console.log("getContract Compute!")
 
-            dContract = new web3.eth.Contract(DonateABI, donateCA);
+            dContract = new web3.eth.Contract(donateABI, donateCA);
             console.log("Donate Contract Connected!")
 
-            tContract = new web3.eth.Contract(TokenABI, tokenCA);
+            tContract = new web3.eth.Contract(tokenABI, tokenCA);
             console.log("Token Contract Connected!")
+
+            fContract = new web3.eth.Contract(factoryABI, factoryCA);
+            console.log("Factory Contract Connected!")
+
 
             dContract.events.Donate({}, function (error, event) {
                     console.log("Now on, Watching Contract events!");
@@ -332,6 +360,49 @@
                 console.log("your token balance is", result);
             });
         }
+
+        /*
+        // function name : createArt
+        // arg1 : string memory _name
+        // arg2 : string memory _createdBy
+        // arg3 : string memory _inspiredBy
+        */
+        function createArt() {
+            console.log("Use createArt function!");
+            console.log(account);
+
+
+            let _name = document.getElementById("input_artname").value;
+            let _createdBy = document.getElementById("input_artcreatedby").value;
+            let _inspiredBy = document.getElementById("input_artinspiredby").value;
+
+            console.log(_name, _createdBy, _inspiredBy);
+
+            fContract.methods.createArt(_name, _createdBy, _inspiredBy).send({
+                    from: account
+                })
+                .on('transactionHash', function (hash) {
+                    console.log(hash);
+                })
+                .on('receipt', function (receipt) {
+                    console.log(receipt);
+                })
+                .on('error', function (error, receipt) {
+                    console.log(error, receipt);
+                });
+        };
+        /*
+        getArtsByOwner(address _owner) external view returns(uint[] memory) {
+        */
+        function getArtsByOwner() {
+            console.log(_owner);
+            _owner = account;
+
+            console.log(_owner);
+            fContract.methods.getArtsByOwner(_owner).call({}).then(function (result) {
+                console.log(result);
+            })
+        };
     </script>
 </body>
 
