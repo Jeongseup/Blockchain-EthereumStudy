@@ -147,3 +147,13 @@ https://blog.naver.com/thswjdtmq4/222465370472
 [Ethernaut] - 6. Delegation (부록 : solidity call과 delegatecall의 차이)
 
 https://blog.naver.com/thswjdtmq4/222465428601
+
+##### 21.08.16
+
+[Ethernaut] - 7. Force
+
+https://blog.naver.com/thswjdtmq4/222466715356
+
+[Ethernaut] - 8. Vault
+
+https://blog.naver.com/thswjdtmq4/222466727585
