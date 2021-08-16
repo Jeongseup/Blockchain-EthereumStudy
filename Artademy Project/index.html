@@ -40,7 +40,8 @@
     <div>
         <a class="customBtn blue" href="#blue" onclick="getGivers();">Givers</a>
         <a class="customBtn red" href="#red" onclick="getBalanceOf();">MyToken</a>
-        <a class="customBtn red" href="" onclick="getArtsByOwner();">getArtsByOwner</a>
+        <a class="customBtn red" onclick="getArtsByOwner();">getArtsByOwner</a>
+        <a class="customBtn red" onclick="getArts();">Arts</a>
 
         <div class="input-group col-3 p-3 fs-6">
             <input type="text" class="form-control" placeholder="Art Name" value="Cinderella" />
@@ -258,7 +259,7 @@
             console.log("Use connectWallet function!");
 
             // Request account access if needed
-            await window.ethereum.enable();
+            console.log(await window.ethereum.enable());
 
             // get balacne in connected account
             web3.eth.getAccounts().then(function (accounts) {
@@ -354,9 +355,9 @@
         function getBalanceOf() {
             console.log("Use BalanceOf function!");
 
-            _tokenOwner = account;
-            console.log(_tokenOwner);
-            tContract.methods.balanceOf(_tokenOwner).call({}).then(function (result) {
+            // _tokenOwner = account;
+            // console.log(_tokenOwner);
+            tContract.methods.balanceOf(account).call({}).then(function (result) {
                 console.log("your token balance is", result);
             });
         }
@@ -395,14 +396,16 @@
         getArtsByOwner(address _owner) external view returns(uint[] memory) {
         */
         function getArtsByOwner() {
-            console.log(_owner);
-            _owner = account;
-
-            console.log(_owner);
-            fContract.methods.getArtsByOwner(_owner).call({}).then(function (result) {
+            fContract.methods.getArtsByOwner(account).call({}).then(function (result) {
                 console.log(result);
             })
         };
+
+        function getArts() {
+            fContract.arts().then(function (result) {
+                console.log(result);
+            })
+        }
     </script>
 </body>
 
