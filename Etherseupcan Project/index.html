@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Etherseupcan</title>
+    <link rel="icon" type="image/png" href="https://etherscan.io/images/logo-ether.png?v=0.0.2">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <script type="text/javascript" src="./bignumber.min.js"></script>
-    <script type="text/javascript" src="./web3.js"></script>
+    <script type="text/javascript" src="./lib/bignumber.min.js"></script>
+    <script type="text/javascript" src="./lib/web3.js"></script>
     <script type="text/javascript">
         if (typeof web3 !== "undefined") {
             web3 = new Web3(web3.currentProvider);
@@ -29,23 +30,35 @@
             console.log("not connected");
         }
 
-        let accounts = web3.eth.accounts;
-        const etherCommandList = Object.keys(web3.eth);
+        // const etherCommandList = Object.keys(web3.eth);
+        let abi = [{
+            "inputs": [],
+            "name": "getBlockNumber",
+            "outputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+            "stateMutability": "view",
+            "type": "function"
+        }];
+
+        let contractAddress = "0xc76f32ac931Db5fDC5178116a67d298879D3e1b9";
+        let smartContract = web3.eth.contract(abi).at(contractAddress)
+        // console.log(smartContract);
+
+        function getBlockNumber() {
+            let currentBlockNumber;
+            smartContract.getBlockNumber.call(function (error, result) {
+                // console.log(result);
+                // console.log(result.toNumber());
+                currentBlockNumber = result.toNumber();
+                document.getElementById("input_blocknumber").value = currentBlockNumber;
+            })
+        }
     </script>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        /* Header/logo Title */
-        .header {
-            padding: 60px;
-            text-align: left;
-            background: #21325b;
-            color: white;
-        }
-
         * {
             box-sizing: border-box;
         }
@@ -56,43 +69,31 @@
             margin: 0;
         }
 
-        .container {
+        /* Header/logo Title */
+        .header {
+            padding: 60px;
+            text-align: left;
+            background: #21325b;
+            color: white;
+        }
+
+        .customContainer {
             display: flex;
             flex-wrap: wrap;
+            height: 50em;
         }
 
-        /* Style the top navigation bar */
-        .cumstomNavbar {
-            display: flex;
-            background-color: #333;
-            /* justify-content: center; */
-        }
-
-        /* Style the navigation bar links */
-        .cumstomNavbar a {
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        /* Change color on hover */
-        .cumstomNavbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        /* Create two unequal columns that sits next to each other */
-        /* Sidebar/left column */
+        /* left column */
         .side {
-            flex: 30%;
-            background-color: #f1f1f1;
-            padding: 20px;
+            text-align: center;
+
+            flex: 20%;
+            padding-left: 10px;
         }
 
-        /* Main column */
+        /* right column */
         .main {
-            flex: 70%;
+            flex: 60%;
             background-color: white;
             padding: 20px;
         }
@@ -101,141 +102,277 @@
         .footer {
             padding: 20px;
             text-align: center;
-            background: #ddd;
+            background: #21325b;
         }
 
         /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
         @media screen and (max-width: 700px) {
-
-            .row,
-            .navbar {
+            .container {
                 flex-direction: column;
             }
         }
 
-        table,
-        th,
-        td {
-            border: 1px solid black;
-            border-collapse: collapse;
+        /* Fake image, just for this example */
+        .fakeimg {
+            background-color: #aaa;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .container {
+            padding: 10px;
         }
     </style>
 </head>
 
-<body>
+<body onload="updateBody();">
     <!-- Note -->
     <div style="background: #ffff; padding: 10px">
         <img style="width: auto; height: 30px" src="https://etherscan.io/images/logo-ether.png?v=0.0.2" alt="" />
     </div>
 
     <!-- Header -->
-    <header class="header">
+    <header class="header" style="height: 20rem;">
         <h1>The Ethereum Blockchain Explorer</h1>
-        <div id="currentblock"></div>
-        <h3>Send ETH</h3>
-        <div class="input-group">
-            <div class="form-outline" style="display: flex">
-                <select id="fromAccount" class="form-select form-select-sm"></select>
-
-                <select id="toAccount" style="margin-left: 10px" class="form-select form-select-sm"></select>
-
-                <input style="width: 50%; margin-left: 10px" class="form-control" type="number" id="etherAmmount"
-                    placeholder="ether ammount" />
+        <div class="input-group" style="margin:10px;">
+            <div class="form-outline" style="width:30%">
+                <input type="text" class="form-control" placeholder="Serach" />
             </div>
-            <button type="button" class="btn btn-primary" onclick="sendEther();">
-                <label>send</label>
+            <button type="button" class="btn btn-primary">
+                <div class="fas fa-search">Click</div>
             </button>
         </div>
-        <br />
-        <h3>Get Block Information</h3>
-        <div class="input-group" style="width: 30%">
-            <input type="text" id="blocknumber" class="form-control" placeholder="Serach Block Nubmer"></input>
-            <button type="button" class="btn btn-primary" onclick="searchBlockInfo();">
-                <label>Search</label>
-            </button>
+        <div id="currentblock">
+
         </div>
     </header>
-
-    <!-- Navigation Bar -->
-    <nav class="cumstomNavbar">
-        <a href="#"></a>
-    </nav>
-
-    <div class="container">
-        <aside class="side">
-            <h2>Ganache-cli Commands</h2>
-            <table style="width: 100%">
-                <thead>
-                    <tr>
-                        <th>web3 eth command</th>
-                    </tr>
-                </thead>
-                <tbody id="tb_body1"></tbody>
-            </table>
-        </aside>
-
-        <div class="main">
-            <div>
-                <table style="width: 100%">
-                    <thead>
-                        <tr>
-                            <th>지갑 주소</th>
-                            <th>보유 ETH</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_body2"></tbody>
-                </table>
+    <!-- monitor -->
+    <div class="container"
+        style="margin-top: -5rem; margin-bottom: 1rem; border-radius: 1rem; background: RGB(240,240,240);">
+        <!-- <div class="fakeimg"> -->
+        <a name="monitor"></a>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Block Number</h5>
+                            <p id="card_blocknumber" class="card-text">None</p>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Block TimeStamp</h5>
+                            <p id="card_blocktimestamp" class="card-text">None</p>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-text">Block Hash</h5>
+                            <p id="card_blockhash" class="card-text">None</p>
+                            <a href="#target" class="btn btn-primary">Go someblock</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-sm-12" style="margin-top: 10px;">
+                    <div class="card">
+                        <div class="card-header">
+                            Transactions
+                        </div>
+                        <div class="card-body">
+                            <blockquote id="card_blocktransactions" class="blockquote mb-0">
+                                <p>None</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <!-- </div> -->
     </div>
+    </div>
+    <!-- Container -->
+    <div class="customContainer">
+        <!-- side -->
+        <aside class="side">
+            <!-- account table -->
+            <table class="table table-sm table-hover caption-top">
+                <caption>Ganache test account list</caption>
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Account</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody id="tb_account"></tbody>
+            </table>
+        </aside>
+        <!-- main -->
+        <main class="main">
+            <!-- function 1 : send ether -->
+            <div class="container">
+                <div>
+                    <h3>Send ETH</h3>
+                    <div class="input-group">
+                        <div class="form-outline" style="display:flex;">
+                            <select id="fromAccount" class="form-select form-select-sm"></select>
+
+                            <select id="toAccount" class="form-select form-select-sm"></select>
+
+                            <input class="form-control" type="number" min="0" max="100" id="etherAmmount"
+                                placeholder="ether ammount" />
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="sendEther();">
+                            <label>send</label>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- function 2 :  get block -->
+            <div class="container">
+                <a name="target">
+                    <h3>Get Block Information</h3>
+                </a>
+                <div class="input-group" style="width: 30%">
+                    <input type="text" id="blocknumber" class="form-control" placeholder="Serach Block Nubmer"></input>
+                    <a href="#monitor" class="btn btn-primary" onclick="searchBlockInfo();">Search</a>
+                </div>
+            </div>
+            <!-- function 2 :  get block -->
+
+            <!-- function 3 : create new account  -->
+            <div class=" container">
+                <h3>Create New Account</h3>
+                <div class="input-group" style="width: 30%">
+                    <input type="password" id="password" class="form-control" placeholder="Input your password"></input>
+                    <button type="button" class="btn btn-primary" onclick="createNewAccount();">
+                        <label>Create</label>
+                    </button>
+                </div>
+            </div>
+            <!-- function 3 : create new account  -->
+            <div class="container">
+                <h3>Unlock your Account</h3>
+                <div class="input-group" style="width: 60%">
+                    <input type="text" id="unlock_account" class="form-control"
+                        placeholder="Input your address"></input>
+                    <input type="password" id="unlock_password" class="form-control"
+                        placeholder="Input your password"></input>
+                    <button type="button" class="btn btn-primary" onclick="unlockAccount();">
+                        <label>Unlock</label>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+
+    </footer>
     <script>
         // create init list
-        // 1. block number
-        const currentBlockNumber = web3.eth.blockNumber;
-        // 2. account list
-        const accountList = [];
-        for (let account of accounts) {
-            var item = {};
-            var balance = web3.eth.getBalance(account);
-            var ether = web3.fromWei(balance).toNumber();
-
-            // console.log(account, ether);
-            item.account = account;
-            item.eth = ether;
-            accountList.push(item);
-        }
-
+        let currentBlockNumber;
+        let accountList = [];
 
         function loadCurrentBlock() {
-            // console.log(currentBlockNumber);
+            currentBlockNumber = web3.eth.blockNumber;
             document.getElementById("currentblock").innerHTML =
                 `<h3>Current Block Number is ${currentBlockNumber}</h3>`;
         }
 
+        function createNewAccount() {
+            let _password = document.getElementById("password").value;
+            web3.personal.newAccount(_password);
+
+            console.log("create new account!");
+            updateBody();
+        }
+
+        function unlockAccount() {
+            let _account = document.getElementById("unlock_account").value;
+            let _pw = document.getElementById("unlock_password").value;
+
+            web3.personal.unlockAccount(_account, _pw, function (error, status) {
+                if (error == null) {
+                    // console.log(status);
+                    window.alert("Unlock!");
+                } else {
+                    // console.log(error.message);
+                    window.alert(error.message);
+                }
+            });
+
+        }
+
+        function searchTransaction() {
+            web3.eth.getTransaction(txHash, function (error, tx) {
+                console.log(tx);
+            })
+        }
+
         function searchBlockInfo() {
+
             let _blockNum = parseInt(document.getElementById("blocknumber").value);
+            // if (_blockNum == null) {
+            //     _blockNum = currentBlockNumber;
+            // } else {
+            //     _blockNum = parseInt(document.getElementById("blocknumber").value);
+            // }
 
             if (_blockNum > currentBlockNumber) {
                 window.alert("현재 생성되지 않은 블록입니다.");
             } else {
                 let blockInfo = web3.eth.getBlock(parseInt(_blockNum));
-                console.log(blockInfo);
+                // console.log(blockInfo);
+
+                // var item = [];
+                // item.push(blockInfo.hash);
+                // item.push(blockInfo.number);
+                // item.push(blockInfo.transactions);
+                // item.push(blockInfo.timestamp);
+
+                // console.log(item);
+                document.getElementById("card_blockhash").innerHTML = blockInfo.hash;
+                document.getElementById("card_blocknumber").innerHTML = blockInfo.number;
+                document.getElementById("card_blocktransactions").innerHTML = blockInfo.transactions;
+
+                document.getElementById("card_blocktimestamp").innerHTML = blockInfo.timestamp;
+
+                // card_blockhash.insertAdjacentHTML("beforeend", blockInfo.hash);
+                // card_blocknumber.insertAdjacentHTML("beforeend", blockInfo.number);
+                // card_blocktransactions.insertAdjacentHTML("beforeend", blockInfo.transactions);
+                // card_blocktimestamp.insertAdjacentHTML("beforeend", blockInfo.timestamp);
             }
+
+
         }
 
 
+        /** 
+         * 전송 주소 : _fromAccount
+         * 받는 주소 : _toAccount
+         * 보내고 싶은 이더량 : _etherAmmount);
+         */
         function sendEther() {
             let _fromAccount = document.getElementById("fromAccount").value;
             let _toAccount = document.getElementById("toAccount").value;
             let _etherAmmount =
                 document.getElementById("etherAmmount").value;
 
-            // console.log("전송 주소 : ", _fromAccount);
-            // console.log("받는 주소 : ", _toAccount);
-            // console.log("보내고 싶은 이더량", _etherAmmount);
 
             if ((_fromAccount == "") | (_toAccount == "")) {
                 window.alert("주소가 비었습니다.");
+            } else if (_etherAmmount == 0) {
+                window.alert("보내려는 이더의 양을 기입하세요.");
             } else {
                 web3.eth.sendTransaction({
                     from: _fromAccount,
@@ -243,12 +380,21 @@
                     value: web3.toWei(_etherAmmount, "ether"),
                 });
 
-                window.location.reload();
+
+                console.log("send!");
+                updateBody();
+                // window.location.reload();
+                // setTimeout(function () {
+                //     console.log('Works!');
+                //     updateBody();
+                // }, 3000);
             }
+
         }
 
 
         function loadAccounts() {
+
             var h = [];
             h.push(`<option value="">주소를 선택하세요.</option>`);
 
@@ -262,40 +408,42 @@
             document.getElementById("toAccount").innerHTML = h.join("");
         }
 
-        function renderCommands() {
-            var h = [];
-            for (var item of etherCommandList) {
-                h.push("<tr>");
-                h.push("<td>" + item + "</td>");
-                h.push("</tr>");
-            }
-            document.getElementById("tb_body1").innerHTML = h.join("");
-        }
-
         function renderAccounts() {
+
+            const accounts = web3.eth.accounts;
+            accountList = [];
+
+            for (let account of accounts) {
+                var item = {};
+                var balance = web3.eth.getBalance(account);
+                var ether = web3.fromWei(balance).toNumber();
+
+                item.account = account;
+                item.eth = ether;
+                accountList.push(item);
+            }
+
             var h = [];
-            for (var item of accountList) {
+            for (var idx in accountList) {
                 h.push("<tr>");
-                h.push("<td>" + item.account + "</td>");
-                h.push("<td>" + item.eth + "</td>");
+                h.push("<td>" + (parseInt(idx) + 1) + "</td>");
+                h.push("<td>" + accountList[idx].account + "</td>");
+                h.push("<td>" + accountList[idx].eth + "</td>");
                 h.push("</tr>");
             }
-            document.getElementById("tb_body2").innerHTML = h.join("");
+
+            document.getElementById("tb_account").innerHTML = h.join("");
+            // console.log(accountList[0].eth);
         }
 
-        function createNewAccount(_pw) {
-            web3.personal.newAccount(_pw);
+        function updateBody() {
+            renderAccounts();
+            loadAccounts();
+            loadCurrentBlock();
+            searchBlockInfo();
         }
-
-        function unlockAccount(_account, _pw) {
-            web3.personal.unlockAccount(_account, _pw);
-        }
-
-        renderAccounts();
-        renderCommands();
-        loadAccounts();
-        loadCurrentBlock();
     </script>
 </body>
+
 
 </html>
