@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My New Project</title>
+    <title>Artademy Project</title>
 
     <!-- web3.js -->
     <script type="text/javascript" src="./lib/bignumber.min.js"></script>
@@ -16,7 +16,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="mycss.css">
+    <link rel="stylesheet" href="./mycss.css">
 
 
     <style>
@@ -30,175 +30,269 @@
     </style>
 </head>
 
-<body onload="init();">
+<body id="top" onload="init();">
+    <!-- navigation area -->
     <nav>
         <ul>
-            <li><a href="page1.html">Page1</a></li>
-            <li><a href="page2.html">Page2</a></li>
+            <li><a href="#top">Home</a></li>
+            <li><a href="#arts">Arts</a></li>
+            <li><a href="#givers">Givers</a></li>
         </ul>
     </nav>
-    <div>
-        <a class="customBtn blue" href="#blue" onclick="getGivers();">Givers</a>
-        <a class="customBtn red" href="#red" onclick="getBalanceOf();">MyToken</a>
-        <a class="customBtn red" onclick="getArtsByOwner();">getArtsByOwner</a>
-        <a class="customBtn red" onclick="getArts();">Arts</a>
-
-        <div class="input-group col-3 p-3 fs-6">
-            <input type="text" class="form-control" placeholder="Art Name" value="Cinderella" />
-            <input type="text" class="form-control" placeholder="Art CreatedBy" value="seup" />
-            <input type="text" class="form-control" placeholder="Art InspiredBy" value="princess" />
-            <button class="btn btn-secondary" type="button" id="button-addon2" onclick="createArt();">
-                CreateArt
-            </button>
-        </div>
-
-        <div class="input-group col-3 p-3 fs-6">
-            <input id="input_artname" type="text" class="form-control" placeholder="Art Name" />
-            <input id="input_artcreatedby" type="text" class="form-control" placeholder="Art CreatedBy" />
-            <input id="input_artinspiredby" type="text" class="form-control" placeholder="Art InspiredBy" />
-            <button class="btn btn-secondary" type="button" id="button-addon2" onclick="createArt();">
-                CreateArt
-            </button>
-        </div>
-    </div>
-    <main>
-        <section class="scene one">
-            <div id="introduction" class="flex-40 d-flex align-content-center">
-                <div class="row justify-content-center flex-wrap">
-                    <!-- flex-50 -->
-                    <div class="">
-                        <div class="p-3 text-white text-center">
-                            <blockquote class="blockquote">
-                                <h1 class="display-1">The Givers Project</h1>
-                            </blockquote>
-                            <p class="text-white blockquote-footer mt-3">
-                                <em>
-                                    Donate directly to social good projects with zero added fees.
-                                </em>
-                            </p>
-                            <div class="p-3 text-white text-end">
-                                <p id="p_totalgivers" class="h3"></p>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <button id="btn_connectwallet" type="button" class="btn btn-lg btn-secondary"
-                                    onclick="connectWallet();">
-                                    Connect Wallet
-                                </button>
-                            </div>
+    <!-- donate area -->
+    <section class="scene one">
+        <div id="introduction" class="flex-40 d-flex align-content-center">
+            <div class="row justify-content-center flex-wrap">
+                <!-- flex-50 -->
+                <div class="">
+                    <div class="p-3 text-white text-center">
+                        <blockquote class="blockquote">
+                            <h1 class="display-1">The Artademy Project</h1>
+                        </blockquote>
+                        <p class="text-white blockquote-footer mt-3">
+                            <em>
+                                Donate directly to social good projects with zero added fees.
+                            </em>
+                        </p>
+                        <div class="p-3 text-white text-end">
+                            <p id="p_totalgivers" class="h3"></p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button id="btn_connectwallet" type="button" class="btn btn-lg btn-secondary"
+                                onclick="connectWallet();">
+                                Connect Wallet
+                            </button>
                         </div>
                     </div>
-                    <!-- flex-50 -->
-                    <div class="row justify-content-center">
-                        <div class="" style="width: 90%;">
-                            <div class="input-group col-sm-3 p-3">
-                                <input id="input_nickname" type="text" class="form-control"
-                                    placeholder="Input your nickname, if not it's replaced to none" />
-                                <button class="btn btn-secondary" type="button" id="button-addon2" onclick="donate();">
-                                    Donate
-                                </button>
-                            </div>
-                            <div class="input-group col-3 p-3 fs-6">
-                                <input id="input_info1" type="text" class="form-control" placeholder="Nickname" />
-                                <input id="input_info2" type="text" class="form-control" placeholder="Address" />
-                                <input id="input_info3" type="text" class="form-control" placeholder="Amount" />
-                                <button class="btn btn-secondary" type="button" id="button-addon2"
-                                    onclick="getLatestGiver();">
-                                    Latest Giver
-                                </button>
-                            </div>
-                            <div class="input-group col-3 p-3">
-                                <input id="input_count" type="text" class="form-control"
-                                    placeholder="Your Give Count" />
-                                <button class="btn btn-secondary" type="button" id="button-addon2"
-                                    onclick="getMyGiveCount();">
-                                    My Give Count
-                                </button>
-                            </div>
+                </div>
+                <!-- flex-50 -->
+                <div class="row justify-content-center">
+                    <div class="" style="width: 90%;">
+                        <div class="input-group col-sm-3 p-3">
+                            <input id="input_nickname" type="text" class="form-control"
+                                placeholder="Input your nickname, if not it's replaced to none" />
+                            <button class="btn btn-secondary" type="button" id="button-addon2" onclick="donate();">
+                                Donate, 1 finney
+                            </button>
+                        </div>
+                        <div class="input-group col-3 p-3 fs-6">
+                            <input id="input_info1" type="text" class="form-control" placeholder="Nickname" />
+                            <input id="input_info2" type="text" class="form-control" placeholder="Address" />
+                            <input id="input_info3" type="text" class="form-control" placeholder="Amount" />
+                            <button class="btn btn-secondary" type="button" id="button-addon2"
+                                onclick="getLatestGiver();">
+                                Latest Giver
+                            </button>
+                        </div>
+                        <div class="input-group col-3 p-3">
+                            <input id="input_count" type="text" class="form-control" placeholder="Your Give Count" />
+                            <button class="btn btn-secondary" type="button" id="button-addon2"
+                                onclick="getMyGiveCount();">
+                                My Give Count
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
-    <div>
-        <button></button>
+        </div>
+    </section>
+
+    <!-- arts area -->
+    <section>
+        <div id="arts" class="anchor text-center text-custom">
+            <p class="fs-1 font-custom">Created Ars Section</p>
+        </div>
+        <div class="" id="columns">
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/cinderella.jpg">
+                <figcaption>Cinderella wearing European fashion of the mid-1860’s
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/rapunzel.jpg">
+                <figcaption>Rapunzel, clothed in 1820’s period fashion
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/belle.jpg">
+                <figcaption>Belle, based on 1770’s French court fashion
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/mulan_2.jpg">
+                <figcaption>Mulan, based on the Ming Dynasty period
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/sleeping-beauty.jpg">
+                <figcaption>Sleeping Beauty, based on European fashions in 1485
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/pocahontas_2.jpg">
+                <figcaption>Pocahontas based on 17th century Powhatan costume
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/snow-white.jpg">
+                <figcaption>Snow White, based on 16th century German fashion
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/ariel.jpg">
+                <figcaption>Ariel wearing an evening gown of the 1890’s
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+
+            <figure>
+                <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/tiana.jpg">
+                <figcaption>Tiana wearing the <i>robe de style</i> of the 1920’s
+                    <a class="customBtn red" onclick="">Get NFT</a>
+                </figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- table area -->
+    <section>
+        <div id="givers" class="anchor text-center text-custom">
+            <p class="fs-1 font-custom">Total Givers Section</p>
+        </div>
+        <div class="row justify-content-md-center">
+            <table class="table table-hover" style="width: 80%;">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Account</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="tb_givers"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- additional functions area -->
+    <div class="d-flex justify-content-evenly">
+        <div class="anchor-box">
+            <a class="customBtn" href="#red" onclick="getBalanceOf();">MyToken</a>
+        </div>
+        <div class="anchor-box">
+            <a class="customBtn" onclick="getArtsByOwner();">My Arts</a>
+        </div>
+        <div class="anchor-box">
+            <a class="customBtn" onclick="loadArtsList();">Load Arts</a>
+        </div>
     </div>
-    <div class="" id="columns">
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/cinderella.jpg">
-            <figcaption>Cinderella wearing European fashion of the mid-1860’s</figcaption>
-            <button>Get This</button>
-        </figure>
 
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/rapunzel.jpg">
-            <figcaption>Rapunzel, clothed in 1820’s period fashion</figcaption>
-        </figure>
+    <!-- NFT area -->
+    <section>
+        <div class="container">
 
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/belle.jpg">
-            <figcaption>Belle, based on 1770’s French court fashion</figcaption>
-        </figure>
+            <div class="input-group col-3 p-3 fs-6">
+                <input id="input_nftto" type="text" class="form-control"
+                    placeholder="_to (who do you send your token?)" />
+                <input id="input_nfttoken" type="text" class="form-control" placeholder="_token (what is token id?)" />
+                <button class="btn btn-secondary" type="button" onclick="transferNFT();">
+                    Art Transfer
+                </button>
+            </div>
+            <div class="input-group col-3 p-3 fs-6">
+                <input id="input_artname" type="text" class="form-control" placeholder="Art Name" />
+                <input id="input_artcreatedby" type="text" class="form-control" placeholder="Art CreatedBy" />
+                <input id="input_artinspiredby" type="text" class="form-control" placeholder="Art InspiredBy" />
+                <button class="btn btn-secondary" type="button" id="button-addon2" onclick="createArt();">
+                    CreateArt
+                </button>
+            </div>
 
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/mulan_2.jpg">
-            <figcaption>Mulan, based on the Ming Dynasty period</figcaption>
-        </figure>
+            <div class="input-group col-3 p-3 fs-6">
+                <input id="input_nftid" type="text" class="form-control" placeholder="Nickname" />
+                <button class="btn btn-secondary" type="button" id="button-addon2" onclick="searchArt();">
+                    Search Art
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Inforamtion
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p id="card-name"></p>
+                        <p id="card-createdby"></p>
+                        <p id="card-inspiredby"></p>
+                        <p id="card-createdtime"></p>
+                    </blockquote>
+                </div>
+            </div>
 
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/sleeping-beauty.jpg">
-            <figcaption>Sleeping Beauty, based on European fashions in 1485</figcaption>
-        </figure>
+            <div class="input-group col-3 p-3 fs-6">
+                <input id="input_nftid2" type="text" class="form-control" placeholder="nft id" />
+                <button class="btn btn-secondary" type="button" id="button-addon2" onclick="ownerOf();">
+                    Art Owner
+                </button>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    Inforamtion
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p id="card-owner"></p>
+                    </blockquote>
+                </div>
+            </div>
 
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/pocahontas_2.jpg">
-            <figcaption>Pocahontas based on 17th century Powhatan costume</figcaption>
-        </figure>
+        </div>
+    </section>
 
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/snow-white.jpg">
-            <figcaption>Snow White, based on 16th century German fashion</figcaption>
-        </figure>
-
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/ariel.jpg">
-            <figcaption>Ariel wearing an evening gown of the 1890’s</figcaption>
-        </figure>
-
-        <figure>
-            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/4273/tiana.jpg">
-            <figcaption>Tiana wearing the <i>robe de style</i> of the 1920’s</figcaption>
-        </figure>
-    </div>
-
-
-    <footer>
-
-        <section class="scene">
-
-        </section>
+    <!-- footer -->
+    <footer class="footer row-cols-3">
+        <div class="fblock">
+            <h3>CONTACT</h3>
+            <p class="contact"><a href="mailto:contact@example.com" target="blank"></a>contact@example.com</p>
+            <p>서울시 영등포구 양산로 53 <br>
+                월드메르디앙비즈센터 405호
+            </p>
+        </div>
     </footer>
     <!-- Javascript Code -->
-    <script type="text/javascript" src="./src/contract.js"></script>
+    <script type="text/javascript" src="./src/js/contract.js"></script>
     <script type="text/javascript">
         let provider;
         let web3;
         let account;
-
+        let giverList = [];
+        let artList = [];
 
         // init Contract => getContract(), getTotalGivers()
         async function init() {
 
-            // contract.js import cofirm
+            // console.log("Donate Application Binary Interface is ", donateABI);
+            // console.log("Donate Contract Address is ", donateCA);
 
-            console.log("Donate Application Binary Interface is ", donateABI);
-            console.log("Donate Contract Address is ", donateCA);
+            // console.log("Token Application Binary Interface is ", tokenABI);
+            // console.log("Token Contract Address is ", tokenCA);
 
-            console.log("Token Application Binary Interface is ", tokenABI);
-            console.log("Token Contract Address is ", tokenCA);
-
-            console.log("Factory Application Binary Interface is ", factoryABI);
-            console.log("Factory Contract Address is ", factoryCA);
+            // console.log("nft Application Binary Interface is ", nftABI);
+            // console.log("nft Contract Address is ", nftCA);
 
             if (window.ethereum) {
                 web3 = new Web3(window.ethereum);
@@ -207,6 +301,7 @@
                     // connect 
                     await getContract();
                     await getTotalGivers();
+                    await loadGiverList();
 
                 } catch (error) {
                     console.log(error);
@@ -220,7 +315,7 @@
             }
         }
 
-        // init Contract
+        // init function 1
         function getContract() {
             console.log("getContract Compute!")
 
@@ -230,29 +325,62 @@
             tContract = new web3.eth.Contract(tokenABI, tokenCA);
             console.log("Token Contract Connected!")
 
-            fContract = new web3.eth.Contract(factoryABI, factoryCA);
-            console.log("Factory Contract Connected!")
+            nContract = new web3.eth.Contract(nftABI, nftCA);
+            console.log("NFT Contract Connected!")
 
 
             dContract.events.Donate({}, function (error, event) {
-                    console.log("Now on, Watching Contract events!");
+                    console.log("Now on, Watching Donate event!");
 
                     if (!error)
                         console.log(event);
                 })
                 .on('data', function (event) {
-                    console.log(event); // same results as the optional callback above
+                    console.log(event);
+                });
+
+            nContract.events.allEvents({}, function (error, event) {
+                    console.log("Now on, Watching NewArt event in NFT COntract!");
+
+                    if (!error)
+                        console.log("event", event);
+                })
+                .on('data', function (event) {
+                    console.log(event);
                 });
         };
 
+        // init function 2
         function getTotalGivers() {
-            console.log("Use getTotalGivers function!");
-
+            // console.log("Use getTotalGivers function!");
             dContract.methods.getTotalGivers().call({}).then(function (result) {
                 // console.log(result);
                 document.getElementById("p_totalgivers").innerText = `Current Total Givers are ${result}!`;
             });
         };
+
+        // init function 3
+        // 기부자들의 정보를 테이블로 가져옵니다.
+        function loadGiverList() {
+
+            dContract.methods.getGivers().call({}).then(function (result) {
+                giverList = result;
+                console.table(giverList);
+
+                var h = [];
+                for (var idx in giverList) {
+                    h.push("<tr>");
+                    h.push("<td>" + (parseInt(idx) + 1) + "</td>");
+                    h.push("<td>" + giverList[idx].name + "</td>");
+                    h.push("<td>" + giverList[idx].account + "</td>");
+                    h.push("<td>" + web3.utils.fromWei(giverList[idx].amount, 'ether') + ' ETH' + "</td>");
+                    h.push("</tr>");
+                }
+                document.getElementById("tb_givers").innerHTML = h.join("");
+            })
+        }
+
+
 
         // 사용자 지갑에 연결합니다.
         async function connectWallet() {
@@ -280,6 +408,7 @@
                     //     `<h3> Your Current Balane is ${balance} ether !<h3>`;
                 });
             });
+
         }
 
         // 가장 최근에 기부한 사람의 정보를 가져옵니다.
@@ -304,7 +433,12 @@
         // 나의 기부 횟수를 확인합니다.
         function getMyGiveCount() {
             if (account == undefined) {
-                return window.alert("Connect your wallet!");
+                window.alert("Connect your wallet!");
+                return window.scrollTo({
+                    top: 100,
+                    left: 100,
+                    behavior: 'smooth'
+                });
             }
             console.log("Use getMyGiveCount function!");
 
@@ -316,10 +450,16 @@
             });
         }
 
-        // 기부 합니다.
+        // 1 finney를 기부 합니다.
         function donate() {
             if (account == undefined) {
-                return window.alert("Connect your wallet!");
+                window.alert("Connect your wallet!");
+
+                return window.scrollTo({
+                    top: 100,
+                    left: 100,
+                    behavior: 'smooth'
+                });
             } else {
 
                 let _nickName = document.getElementById("input_nickname").value;
@@ -339,27 +479,28 @@
                     .on('error', function (error, receipt) {
                         console.log(error, receipt);
                     });
+
             }
         };
 
-        // 기부자들의 정보를 테이블로 가져옵니다.
-        function getGivers() {
-            console.log("Use getGivers function");
-
-            //contract call
-            dContract.methods.getGivers().call({}).then(function (result) {
-                console.table(result);
-            });
-        };
 
         function getBalanceOf() {
-            console.log("Use BalanceOf function!");
+            // console.log("Use BalanceOf function!");
 
-            // _tokenOwner = account;
-            // console.log(_tokenOwner);
-            tContract.methods.balanceOf(account).call({}).then(function (result) {
-                console.log("your token balance is", result);
-            });
+            if (account == undefined) {
+                window.alert("Connect your wallet!");
+
+                return window.scrollTo({
+                    top: 100,
+                    left: 100,
+                    behavior: 'smooth'
+                });
+
+            } else {
+                tContract.methods.balanceOf(account).call({}).then(function (result) {
+                    console.log("your token balance is", result);
+                });
+            }
         }
 
         /*
@@ -369,42 +510,159 @@
         // arg3 : string memory _inspiredBy
         */
         function createArt() {
-            console.log("Use createArt function!");
-            console.log(account);
+            // console.log("Use createArt function!");
 
+            if (account == undefined) {
+                window.alert("Connect your wallet!");
 
-            let _name = document.getElementById("input_artname").value;
-            let _createdBy = document.getElementById("input_artcreatedby").value;
-            let _inspiredBy = document.getElementById("input_artinspiredby").value;
-
-            console.log(_name, _createdBy, _inspiredBy);
-
-            fContract.methods.createArt(_name, _createdBy, _inspiredBy).send({
-                    from: account
-                })
-                .on('transactionHash', function (hash) {
-                    console.log(hash);
-                })
-                .on('receipt', function (receipt) {
-                    console.log(receipt);
-                })
-                .on('error', function (error, receipt) {
-                    console.log(error, receipt);
+                return window.scrollTo({
+                    top: 100,
+                    left: 100,
+                    behavior: 'smooth'
                 });
-        };
-        /*
-        getArtsByOwner(address _owner) external view returns(uint[] memory) {
-        */
+
+            } else {
+
+                let _name = document.getElementById("input_artname").value;
+                let _createdBy = document.getElementById("input_artcreatedby").value;
+                let _inspiredBy = document.getElementById("input_artinspiredby").value;
+
+                // console.log(_name, _createdBy, _inspiredBy);
+
+                nContract.methods.createArt(_name, _createdBy, _inspiredBy).send({
+                        from: account
+                    })
+                    .on('transactionHash', function (hash) {
+                        console.log(hash);
+                    })
+                    .on('receipt', function (receipt) {
+                        console.log(receipt);
+                    })
+                    .on('error', function (error, receipt) {
+                        console.log(error, receipt);
+                    });
+            };
+        }
+
         function getArtsByOwner() {
-            fContract.methods.getArtsByOwner(account).call({}).then(function (result) {
-                console.log(result);
-            })
+            if (account == undefined) {
+                window.alert("Connect your wallet!");
+
+                return window.scrollTo({
+                    top: 100,
+                    left: 100,
+                    behavior: 'smooth'
+                });
+
+            } else {
+                nContract.methods.getArtsByOwner(account).call({}).then(function (result) {
+                    console.log(result);
+                    window.alert(result);
+                })
+            }
         };
 
-        function getArts() {
-            fContract.arts().then(function (result) {
+        function getArt(_artId) {
+            // var _artId = 0;
+            var art = {};
+
+            nContract.methods.arts(_artId).call().then(function (result) {
+                // console.log(result.name);
+                // console.log(result.createdBy);
+                // console.log(result.inspiredBy);
+                // console.log(result.createdTime);
+
+                art.name = result.name
+                art.createdBy = result.createdBy
+                art.inspiredBy = result.inspiredBy
+                art.createdTime = result.createdTime
+
+                console.log(art);
+                window.alert(art.name);
+                return art;
+            });
+        }
+
+        function searchArt() {
+            // var _artId = 0;
+            let _artId = document.getElementById("input_nftid").value;
+            nContract.methods.arts(_artId).call().then(function (result) {
                 console.log(result);
-            })
+                // art.name = result.name
+                // art.createdBy = result.createdBy
+                // art.inspiredBy = result.inspiredBy
+                // art.createdTime = result.createdTime
+
+                document.getElementById("card-name").innerText = result.name;
+                document.getElementById("card-createdby").innerText = result.createdBy;
+                document.getElementById("card-inspiredby").innerText = result.inspiredBy;
+                document.getElementById("card-createdtime").innerText = result.createdTime;
+            });
+        }
+
+        function ownerOf() {
+            // var _artId = 0;
+            let _artId = document.getElementById("input_nftid2").value;
+            nContract.methods.ownerOf(_artId).call().then(function (result) {
+                console.log(result);
+                document.getElementById("card-owner").innerText = result;
+            });
+        }
+
+        function loadArtsList() {
+            let artLength;
+
+            nContract.methods.getTotalArts().call({}).then(async function (artLength) {
+
+                console.log("artLength is ", artLength);
+
+                for (var i = 0; i < artLength; i++) {
+                    console.log(i);
+
+                    var item = await getArt(i);
+                    await console.log(item);
+
+
+                    // artList.push(item);
+                }
+                await console.log(item);
+            });
+
+
+        };
+
+
+        function transferNFT() {
+            // console.log("Use transfer function!");
+            if (account == undefined) {
+                window.alert("Connect your wallet!");
+
+                return window.scrollTo({
+                    top: 100,
+                    left: 100,
+                    behavior: 'smooth'
+                });
+
+            } else {
+
+                let _to = document.getElementById("input_nftto").value;
+                let _tokenId = document.getElementById("input_nfttoken").value;
+
+                // console.log(_to, _tokenId);
+
+                nContract.methods.transfer(_to, _tokenId).send({
+                        from: account
+                    })
+                    .on('transactionHash', function (hash) {
+                        console.log(hash);
+                    })
+                    .on('receipt', function (receipt) {
+                        console.log(receipt);
+                    })
+                    .on('error', function (error, receipt) {
+                        console.log(error, receipt);
+                    });
+            }
         }
     </script>
 </body>

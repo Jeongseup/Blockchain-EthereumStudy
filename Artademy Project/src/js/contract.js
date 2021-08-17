@@ -318,8 +318,33 @@ let tokenABI = [{
     }
 ];
 
-let factoryCA = "0x03c816A65268dFd2b8eA4938763959ff8d47CbBd";
-let factoryABI = [{
+
+let nftCA = "0xfC0FEDE6863bEB622D293Ba28c655db402fbAf4E";
+let nftABI = [{
+        "anonymous": false,
+        "inputs": [{
+                "indexed": true,
+                "internalType": "address",
+                "name": "_owner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "_approved",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "Approval",
+        "type": "event"
+    },
+    {
         "anonymous": false,
         "inputs": [{
                 "indexed": false,
@@ -342,6 +367,47 @@ let factoryABI = [{
         ],
         "name": "NewArt",
         "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [{
+                "indexed": true,
+                "internalType": "address",
+                "name": "_from",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "Transfer",
+        "type": "event"
+    },
+    {
+        "inputs": [{
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "approve",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
         "inputs": [{
@@ -391,6 +457,21 @@ let factoryABI = [{
     },
     {
         "inputs": [{
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+        }],
+        "name": "balanceOf",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "_balance",
+            "type": "uint256"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
                 "internalType": "string",
                 "name": "_name",
                 "type": "string"
@@ -425,5 +506,170 @@ let factoryABI = [{
         }],
         "stateMutability": "view",
         "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getTotalArts",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+        }],
+        "name": "ownerOf",
+        "outputs": [{
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+        }],
+        "name": "takeOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "transfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     }
 ];
+
+
+// let factoryCA = "0x03c816A65268dFd2b8eA4938763959ff8d47CbBd";
+// let factoryABI = [{
+//         "anonymous": false,
+//         "inputs": [{
+//                 "indexed": false,
+//                 "internalType": "uint256",
+//                 "name": "artId",
+//                 "type": "uint256"
+//             },
+//             {
+//                 "indexed": false,
+//                 "internalType": "string",
+//                 "name": "name",
+//                 "type": "string"
+//             },
+//             {
+//                 "indexed": false,
+//                 "internalType": "string",
+//                 "name": "createdBy",
+//                 "type": "string"
+//             }
+//         ],
+//         "name": "NewArt",
+//         "type": "event"
+//     },
+//     {
+//         "inputs": [{
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//         }],
+//         "name": "artToOwner",
+//         "outputs": [{
+//             "internalType": "address",
+//             "name": "",
+//             "type": "address"
+//         }],
+//         "stateMutability": "view",
+//         "type": "function"
+//     },
+//     {
+//         "inputs": [{
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//         }],
+//         "name": "arts",
+//         "outputs": [{
+//                 "internalType": "string",
+//                 "name": "name",
+//                 "type": "string"
+//             },
+//             {
+//                 "internalType": "string",
+//                 "name": "createdBy",
+//                 "type": "string"
+//             },
+//             {
+//                 "internalType": "string",
+//                 "name": "inspiredBy",
+//                 "type": "string"
+//             },
+//             {
+//                 "internalType": "uint256",
+//                 "name": "createdTime",
+//                 "type": "uint256"
+//             }
+//         ],
+//         "stateMutability": "view",
+//         "type": "function"
+//     },
+//     {
+//         "inputs": [{
+//                 "internalType": "string",
+//                 "name": "_name",
+//                 "type": "string"
+//             },
+//             {
+//                 "internalType": "string",
+//                 "name": "_createdBy",
+//                 "type": "string"
+//             },
+//             {
+//                 "internalType": "string",
+//                 "name": "_inspiredBy",
+//                 "type": "string"
+//             }
+//         ],
+//         "name": "createArt",
+//         "outputs": [],
+//         "stateMutability": "nonpayable",
+//         "type": "function"
+//     },
+//     {
+//         "inputs": [{
+//             "internalType": "address",
+//             "name": "_owner",
+//             "type": "address"
+//         }],
+//         "name": "getArtsByOwner",
+//         "outputs": [{
+//             "internalType": "uint256[]",
+//             "name": "",
+//             "type": "uint256[]"
+//         }],
+//         "stateMutability": "view",
+//         "type": "function"
+//     }
+// ];
