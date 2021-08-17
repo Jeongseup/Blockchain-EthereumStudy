@@ -1,3 +1,4 @@
+// 0x9D777b88fF926aBd5BbfB75bb7139f4af16EC8f6
 pragma solidity 0.8.6;
 
 contract ArtademyToken {
@@ -17,7 +18,7 @@ contract ArtademyToken {
 
     using SafeMath for uint256;
 
-   constructor(uint256 total) public {  
+    constructor(uint256 total) public {  
 		totalSupply_ = total;
 		balances[msg.sender] = totalSupply_;
     }  
