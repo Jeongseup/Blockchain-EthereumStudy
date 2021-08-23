@@ -25,6 +25,7 @@ Artademy 프로젝트는 이런 거버넌스에 의하여 금전적 어려움 �
 ---
 
 #### Youtube link
+https://youtu.be/JiPtsszBlfE
 
 #### 프로젝트 세부 내용 카피라이트
 
